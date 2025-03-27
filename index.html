@@ -1,0 +1,234 @@
+<meta charset="utf-8">
+<title>生命靈數計算機與解讀</title>
+<style>
+body {
+    font-family: "Microsoft JhengHei", Arial, sans-serif;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    color: #fff;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(4px);
+    width: 90%;
+    max-width: 600px;
+    margin: 20px auto;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.input-section {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.operators {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.operator-btn {
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.operator-btn:hover {
+    transform: scale(1.1);
+}
+
+.number-input {
+    padding: 1rem;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 8px;
+    margin: 0.5rem;
+    width: 80%;
+    max-width: 300px;
+    background: rgba(255, 255, 255, 0.9);
+    text-align: center;
+}
+
+.calculate-btn {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    background: linear-gradient(45deg, #4CAF50, #45a049);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: all 0.3s;
+}
+
+.calculate-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.result {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.meditation-text {
+    font-style: italic;
+    color: #a8a8a8;
+    margin-bottom: 1rem;
+}
+
+.number-meaning {
+    padding: 1rem;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    margin-top: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer {
+    margin-top: 2rem;
+    font-style: italic;
+    color: #a8a8a8;
+    font-size: 0.9rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 1rem;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.pulse {
+    animation: pulse 2s infinite;
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>生命靈數計算機</h1>
+    <div class="meditation-text">
+        請先靜心冥想，心中默念您想問的事情...
+    </div>
+    
+    <div class="input-section">
+        <input type="number" id="number1" class="number-input" placeholder="輸入第一個數字">
+        <div class="operators">
+            <button class="operator-btn" onclick="setOperator('+')">+</button>
+            <button class="operator-btn" onclick="setOperator('-')">-</button>
+            <button class="operator-btn" onclick="setOperator('×')">×</button>
+            <button class="operator-btn" onclick="setOperator('÷')">÷</button>
+        </div>
+        <input type="number" id="number2" class="number-input" placeholder="輸入第二個數字">
+        <button onclick="calculate()" class="calculate-btn">計算生命靈數</button>
+    </div>
+
+    <div class="result" id="result"></div>
+    <div class="number-meaning" id="meaning"></div>
+    
+    <div class="footer">
+        僅供參考...<br>
+        東風水事務所 林鶴洋 老師 敬撰<br>
+        甲辰年 丙子月 乙卯日 冬月十七
+    </div>
+</div>
+
+<script>
+let selectedOperator = '';
+
+function setOperator(op) {
+    selectedOperator = op;
+    document.querySelectorAll('.operator-btn').forEach(btn => {
+        btn.style.background = btn.innerText === op ? 
+            'linear-gradient(45deg, #ff4757, #ff6b81)' : 
+            'linear-gradient(45deg, #ff6b6b, #ff8e8e)';
+    });
+}
+
+function calculateLifeNumber(num) {
+    while (num > 9) {
+        num = String(num).split('').reduce((a, b) => Number(a) + Number(b), 0);
+    }
+    return num;
+}
+
+function calculate() {
+    const num1 = document.getElementById('number1').value;
+    const num2 = document.getElementById('number2').value;
+    
+    if (!num1 || !num2 || !selectedOperator) {
+        alert('請輸入兩個數字並選擇運算符號');
+        return;
+    }
+
+    let result;
+    switch(selectedOperator) {
+        case '+':
+            result = Number(num1) + Number(num2);
+            break;
+        case '-':
+            result = Number(num1) - Number(num2);
+            break;
+        case '×':
+            result = Number(num1) * Number(num2);
+            break;
+        case '÷':
+            if (Number(num2) === 0) {
+                alert('除數不能為零');
+                return;
+            }
+            result = Number(num1) / Number(num2);
+            break;
+    }
+
+    const lifeNumber = calculateLifeNumber(Math.abs(Math.round(result)));
+    
+    document.getElementById('result').innerHTML = `
+        <h2>計算結果</h2>
+        <p>${num1} ${selectedOperator} ${num2} = ${result}</p>
+        <h3>您的生命靈數是: ${lifeNumber}</h3>
+    `;
+
+    const meanings = {
+        1: "領導者、創新者。代表獨立、創造力、決心。建議：相信直覺，勇於開創新局。",
+        2: "和平使者。代表合作、直覺、敏感。建議：培養耐心，相信潛在的可能性。",
+        3: "表達者。代表創意、社交、樂觀。建議：發揮創意，展現才華。",
+        4: "建造者。代表務實、耐心、可靠。建議：腳踏實地，循序漸進。",
+        5: "自由者。代表冒險、變化、適應力。建議：擁抱改變，保持彈性。",
+        6: "照顧者。代表責任、愛、和諧。建議：平衡付出與自我照顧。",
+        7: "智者。代表智慧、靈性、分析力。建議：深入探索，保持思考。",
+        8: "力量者。代表物質、權力、成就。建議：善用影響力，追求平衡。",
+        9: "智慧者。代表慈悲、完成、理想主義。建議：放下執著，擁抱圓滿。"
+    };
+
+    document.getElementById('meaning').innerHTML = `
+        <h3>靈數 ${lifeNumber} 的意義：</h3>
+        <p>${meanings[lifeNumber]}</p>
+    `;
+    
+    document.getElementById('meaning').classList.add('pulse');
+    setTimeout(() => {
+        document.getElementById('meaning').classList.remove('pulse');
+    }, 2000);
+}
+</script>
+</body>
+</html>
